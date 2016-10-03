@@ -40,6 +40,7 @@
     <Compile Include="Tree\OTransition.cs" />
     <Compile Include="Tree\OProperty.cs" />
     <Compile Include="Tree\OEvent.cs" />
+    <Compile Include="OMLParser.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
