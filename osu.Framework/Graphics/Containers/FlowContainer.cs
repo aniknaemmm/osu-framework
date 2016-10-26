@@ -140,7 +140,14 @@ namespace osu.Framework.Graphics.Containers
                         }
 
                         if (current != d.DrawPosition)
-                            d.MoveTo(current, LayoutDuration, LayoutEasing);
+                        {
+                            if (Direction == FlowDirection.HorizontalOnly)
+                                d.MoveToX(current.X, LayoutDuration, LayoutEasing);
+                            if (Direction == FlowDirection.VerticalOnly)
+                                d.MoveToY(current.Y, LayoutDuration, LayoutEasing);
+                            else
+                                d.MoveTo(current, LayoutDuration, LayoutEasing);
+                        }
 
                         current.X += size.X;
                     }

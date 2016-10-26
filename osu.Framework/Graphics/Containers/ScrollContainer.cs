@@ -28,7 +28,7 @@ namespace osu.Framework.Graphics.Containers
             }
         }
 
-        private Container content;
+        protected Container content;
         private ScrollBar scrollbar;
 
         /// <summary>
@@ -38,13 +38,17 @@ namespace osu.Framework.Graphics.Containers
 
         private float displayableContent => ChildSize.Y;
 
-        private float current;
+        protected float current;
 
-        private float currentClamped => MathHelper.Clamp(current, 0, availableContent - displayableContent);
+        protected float currentClamped => MathHelper.Clamp(current, 0, availableContent - displayableContent);
+
+        public float Current => (current + currentClamped) / 2;
 
         protected override Container Content => content;
 
         private bool isDragging;
+
+        protected Action<float> Scrolling;
 
         public ScrollContainer()
         {
@@ -135,11 +139,11 @@ namespace osu.Framework.Graphics.Containers
 
             if (clamp && current != currentClamped)
             {
-                updateScroll(false);
+                UpdateScroll(false);
                 current = currentClamped;
             }
 
-            updateScroll(animated);
+            UpdateScroll(animated);
         }
 
         private void updateSize()
@@ -147,10 +151,10 @@ namespace osu.Framework.Graphics.Containers
             scrollbar?.ResizeTo(new Vector2(10, Math.Min(1, displayableContent / availableContent)), 200, EasingTypes.OutExpo);
         }
 
-        private void updateScroll(bool animated = true)
+        protected virtual void UpdateScroll(bool animated = true)
         {
+            Scrolling?.Invoke(current);
             float adjusted = (current + currentClamped) / 2;
-
             scrollbar?.MoveToY(adjusted * scrollbar.Size.Y, animated ? 800 : 0, EasingTypes.OutExpo);
             content.MoveToY(-adjusted, animated ? 800 : 0, EasingTypes.OutExpo);
         }
