@@ -19,6 +19,7 @@ using osu.Framework.Threading;
 using OpenTK;
 using OpenTK.Input;
 using FlowDirection = osu.Framework.Graphics.Containers.FlowDirection;
+using osu.Framework.Allocation;
 
 namespace osu.Framework
 {
@@ -52,6 +53,8 @@ namespace osu.Framework
         internal DrawVisualiser DrawVisualiser;
 
         protected override Container Content => content;
+
+        public DependencyContainer Dependencies => Host.Dependencies;
 
         public BaseGame()
         {
